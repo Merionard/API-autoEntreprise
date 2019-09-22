@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
@@ -14,6 +16,7 @@ import org.side.pojo.TypeActivite;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Entreprise implements Serializable {
@@ -26,8 +29,7 @@ public class Entreprise implements Serializable {
 	@ManyToOne
 	private Entrepreneur entrepreneur;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "entreprise")
+	@OneToMany
 	private Collection<ChiffreAffaire> chiffresAffaire;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -36,12 +38,10 @@ public class Entreprise implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateFin;
 
-	private boolean isLiberal;
+	@JsonProperty
+	private boolean isBeneficiaireArce;
 
-	private boolean isCommercial;
-
-	private boolean isBeneficaireARCE;
-
+	@Enumerated(EnumType.STRING)
 	private TypeActivite typeActivite;
 
 	public Entreprise(String siret, Entrepreneur entrepreneur, LocalDate dateDebut, boolean isLiberal,
@@ -49,9 +49,7 @@ public class Entreprise implements Serializable {
 		Siret = siret;
 		this.entrepreneur = entrepreneur;
 		this.dateDebut = dateDebut;
-		this.isLiberal = isLiberal;
-		this.isCommercial = isCommercial;
-		this.isBeneficaireARCE = isBeneficaireARCE;
+		isBeneficiaireArce = isBeneficaireARCE;
 		this.typeActivite = typeActivite;
 	}
 
@@ -107,28 +105,12 @@ public class Entreprise implements Serializable {
 		this.dateFin = dateFin;
 	}
 
-	public boolean isLiberal() {
-		return isLiberal;
+	public boolean isBeneficaireArce() {
+		return isBeneficiaireArce;
 	}
 
-	public void setLiberal(boolean isLiberal) {
-		this.isLiberal = isLiberal;
-	}
-
-	public boolean isCommercial() {
-		return isCommercial;
-	}
-
-	public void setCommercial(boolean isCommercial) {
-		this.isCommercial = isCommercial;
-	}
-
-	public boolean isBeneficaireARCE() {
-		return isBeneficaireARCE;
-	}
-
-	public void setBeneficaireARCE(boolean isBeneficaireARCE) {
-		this.isBeneficaireARCE = isBeneficaireARCE;
+	public void setBeneficaireARCE(boolean isBeneficaireArce) {
+		isBeneficiaireArce = isBeneficaireArce;
 	}
 
 	public TypeActivite getTypeActivite() {

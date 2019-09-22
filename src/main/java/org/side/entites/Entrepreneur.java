@@ -15,6 +15,30 @@ import javax.persistence.Table;
 @Table(name = "Entrepreneur")
 public class Entrepreneur implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	private String login;
+
+	private String password;
+	@OneToOne
+	private Civilite civilite;
+
+	@OneToMany(mappedBy = "entrepreneur")
+	private Collection<Entreprise> entreprise;
+
+	public Entrepreneur(String login, String password, Civilite civilite) {
+		super();
+		this.login = login;
+		this.password = password;
+		this.civilite = civilite;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
 	public String getLogin() {
 		return login;
 	}
@@ -50,25 +74,5 @@ public class Entrepreneur implements Serializable {
 	public Entrepreneur() {
 		super();
 	}
-
-	public Entrepreneur(String login, String password, Civilite civilite) {
-		super();
-		this.login = login;
-		this.password = password;
-		this.civilite = civilite;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-
-	private String login;
-
-	private String password;
-	@OneToOne
-	private Civilite civilite;
-
-	@OneToMany(mappedBy = "entrepreneur")
-	private Collection<Entreprise> entreprise;
 
 }
