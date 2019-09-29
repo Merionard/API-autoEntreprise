@@ -29,6 +29,13 @@ public class EntrepreneurRestControler {
 
 	}
 
+	@RequestMapping(value = "/entrepreneurById/{id}", method = RequestMethod.GET)
+	public Optional<Entrepreneur> getEntrepreneurById(@PathVariable Long id) {
+
+		return entrepreneurDao.findById(id);
+
+	}
+
 	@RequestMapping(value = "/entrepreneur", method = RequestMethod.POST)
 	public Entrepreneur saveEntrepreneur(@RequestBody Entrepreneur entrepreneur) {
 		civiliteDao.save(entrepreneur.getCivilite());
