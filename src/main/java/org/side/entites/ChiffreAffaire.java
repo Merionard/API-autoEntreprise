@@ -1,14 +1,14 @@
 package org.side.entites;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,8 +25,12 @@ public class ChiffreAffaire implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@DateTimeFormat(pattern = "yyyy")
-	private LocalDate annee;
+	private int annee;
+	private int mois;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "Entreprise_id")
+	private Entreprise entreprise;
 
 	private double chiffreAffaire;
 

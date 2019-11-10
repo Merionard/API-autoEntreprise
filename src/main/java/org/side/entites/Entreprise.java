@@ -3,6 +3,7 @@ package org.side.entites;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,7 +19,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 @Entity
+@Data
 public class Entreprise implements Serializable {
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,8 +34,8 @@ public class Entreprise implements Serializable {
 	@ManyToOne
 	private Entrepreneur entrepreneur;
 
-	@OneToMany
-	private Collection<ChiffreAffaire> chiffresAffaire;
+	@OneToMany(mappedBy = "entreprise")
+	private final Collection<ChiffreAffaire> chiffresAffaire = new HashSet<>();
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateDebut;
@@ -53,72 +58,9 @@ public class Entreprise implements Serializable {
 		this.typeActivite = typeActivite;
 	}
 
-	public Entreprise() {
-		super();
-	}
-
-	public Long getId() {
-		return Id;
-	}
-
-	public void setId(Long id) {
-		Id = id;
-	}
-
-	public String getSiret() {
-		return Siret;
-	}
-
-	public void setSiret(String siret) {
-		Siret = siret;
-	}
-
-	public Entrepreneur getEntrepreneur() {
-		return entrepreneur;
-	}
-
-	public void setEntrepreneur(Entrepreneur entrepreneur) {
-		this.entrepreneur = entrepreneur;
-	}
-
-	public Collection<ChiffreAffaire> getChiffresAffaire() {
-		return chiffresAffaire;
-	}
-
-	public void setChiffresAffaire(Collection<ChiffreAffaire> chiffresAffaire) {
-		this.chiffresAffaire = chiffresAffaire;
-	}
-
-	public LocalDate getDateDebut() {
-		return dateDebut;
-	}
-
-	public void setDateDebut(LocalDate dateDebut) {
-		this.dateDebut = dateDebut;
-	}
-
-	public LocalDate getDateFin() {
-		return dateFin;
-	}
-
-	public void setDateFin(LocalDate dateFin) {
-		this.dateFin = dateFin;
-	}
-
-	public boolean isBeneficaireArce() {
-		return isBeneficiaireArce;
-	}
-
-	public void setBeneficaireARCE(boolean isBeneficaireArce) {
-		isBeneficiaireArce = isBeneficaireArce;
-	}
-
-	public TypeActivite getTypeActivite() {
-		return typeActivite;
-	}
-
-	public void setTypeActivite(TypeActivite typeActivite) {
-		this.typeActivite = typeActivite;
+	public Entreprise setChiffresAffaire(ChiffreAffaire ca) {
+		this.getChiffresAffaire().add(ca);
+		return this;
 	}
 
 }
